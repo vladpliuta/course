@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>javaCourse</groupId>
+    <artifactId>periodicEdition</artifactId>
+    <version>0.2-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>javaCourse.periodicEdition</groupId>
+  <artifactId>dao</artifactId>
+  <version>0.2-SNAPSHOT</version>
+  <packaging>jar</packaging>
+  
+  <name>dao</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+	<entity.version>0.2-SNAPSHOT</entity.version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+	<dependency>
+        <groupId>javaCourse.periodicEdition</groupId>
+        <artifactId>entity</artifactId>
+        <version>${entity.version}</version>
+    </dependency>
+	</dependencies>
+</project>
