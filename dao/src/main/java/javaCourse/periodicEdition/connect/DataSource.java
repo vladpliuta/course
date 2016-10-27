@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
- * пул соединений на основе c3p0 с извлечением необходимых данных по БД из файла
- * properties. пул реализован на основе паттерна Singleton
+ * connection pool based on c3p0 extracting the necessary data from file
+ * properties
  * 
  * @author Vladimir Pliuta
  *
@@ -25,10 +25,7 @@ public class DataSource {
 		String url = resource.getString("db.url");
 		String user = resource.getString("db.user");
 		String password = resource.getString("db.password");
-		//String driver = "com.mysql.jdbc.Driver";
-				//String url = "jdbc:mysql://localhost:3306/periodicals?useUnicode=true&amp;characterEncoding=UTF-8";
-				//String user = "root";
-				//String password = "database";
+
 		cpds = new ComboPooledDataSource();
 		cpds.setDriverClass(driver);
 		cpds.setJdbcUrl(url);

@@ -16,8 +16,7 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 
 
 /**
- * команда отображения списка всех периодических изданий (извлекая их из БД) для
- * страницы простого пользователя
+ * command to display all periodic editions for user page
  * 
  * @author Vladimir Pliuta
  *
@@ -31,16 +30,16 @@ public class PeriodicEditionsUserCommand implements ActionCommand {
 			page = ConfigurationManager.getProperty("page.periodicEditionsUser");
 			Connection conn = DataSource.getInstance().getConnection();
 			List<PeriodicEdition> periodicEditions = new PeriodicEditionDAO(conn).findAll();
-			request.setAttribute("periodicEditionsList", periodicEditions);
 			conn.close();
+			request.setAttribute("periodicEditionsList", periodicEditions);
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

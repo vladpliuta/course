@@ -12,11 +12,10 @@ import javaCourse.periodicEdition.connect.DataSource;
 import javaCourse.periodicEdition.dao.PeriodicEditionDAO;
 import javaCourse.periodicEdition.entity.PeriodicEdition;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
-
+import javaCourse.periodicEdition.services.CreatePeriodicEdition;
 
 /**
- * команда создания нового периодического издания с извлечением данных из jsp и
- * записью их в БД
+ * command to create a new periodic edition
  * 
  * @author Vladimir Pliuta
  *
@@ -27,32 +26,13 @@ public class PeriodicEditionCreateCommand implements ActionCommand {
 	public String execute(HttpServletRequest request) {
 		String page = null;
 
-		String idString = request.getParameter("ISSN");
-		int id = Integer.valueOf(idString);
-
-		String title = request.getParameter("title");
-
-		String shortDescription = request.getParameter("shortDescription");
-
-		String monthPeriodicityString = request.getParameter("monthPeriodicity");
-		int monthPeriodicity = Integer.valueOf(monthPeriodicityString);
-
-		String monthPriceString = request.getParameter("monthPrice");
-		double monthPrice = Double.valueOf(monthPriceString);
-
-		String discountQuarteryearString = request.getParameter("discountQuarteryear");
-		int discountQuarteryear = Integer.valueOf(discountQuarteryearString);
-
-		String discountHalfyearString = request.getParameter("discountHalfyear");
-		int discountHalfyear = Integer.valueOf(discountHalfyearString);
+		PeriodicEdition periodicEdition = CreatePeriodicEdition.createPeriodicEdition(request);
 
 		try {
 			page = ConfigurationManager.getProperty("page.periodicEditionsAdmin");
-			Connection conn = DataSource.getInstance().getConnection();
 
+			Connection conn = DataSource.getInstance().getConnection();
 			conn.setAutoCommit(false);
-			PeriodicEdition periodicEdition = new PeriodicEdition(id, title, shortDescription, monthPeriodicity,
-					monthPrice, discountQuarteryear, discountHalfyear);
 			PeriodicEditionDAO periodicEditionDAO = new PeriodicEditionDAO(conn);
 			boolean create = periodicEditionDAO.create(periodicEdition);
 			if (create) {
@@ -62,13 +42,13 @@ public class PeriodicEditionCreateCommand implements ActionCommand {
 			conn.commit();
 			conn.close();
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

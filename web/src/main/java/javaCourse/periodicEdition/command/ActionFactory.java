@@ -7,9 +7,9 @@ import javaCourse.periodicEdition.resource.MessageManager;
 
 
 /**
- * класс является элементом реализации шаблона Factory Method
- *  извлекает имя команды из запроса 
- *  получает объект, соответствующий команде
+ * class is part of the implementation Pattern Factory Method
+ *  extracts from request name of command
+ *  gets an object corresponding to command
  * 
  * @author Vladimir Pliuta
  *

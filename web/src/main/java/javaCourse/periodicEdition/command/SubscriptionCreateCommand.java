@@ -16,12 +16,10 @@ import javaCourse.periodicEdition.entity.Payment;
 import javaCourse.periodicEdition.entity.PeriodicEdition;
 import javaCourse.periodicEdition.entity.Subscription;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
+import javaCourse.periodicEdition.services.CalculateCoast;
 
 /**
- * сложная команда по данным из jsp записывает в БД новую подписку, расчитывает
- * стоимость с учетом периода и скидок, и записывает в БД новый платеж
- * 
- * надо бы похорошему на несколько разбить
+ * command to create a new subscription
  * 
  * @author Vladimir Pliuta
  *
@@ -38,6 +36,7 @@ public class SubscriptionCreateCommand implements ActionCommand {
 		int idReader = Integer.valueOf(idReaderString);
 		String periodString = request.getParameter("period");
 		int period = Integer.valueOf(periodString);
+
 		try {
 			Connection conn = DataSource.getInstance().getConnection();
 			conn.setAutoCommit(false);
@@ -47,28 +46,12 @@ public class SubscriptionCreateCommand implements ActionCommand {
 			PaymentDAO paymentDAO = new PaymentDAO(conn);
 
 			PeriodicEdition periodicEdition = periodicEditionDAO.findById(issn);
+			double coast = CalculateCoast.calculate(periodicEdition, period);
+
 			Subscription subscription = new Subscription(idReader, issn, period);
-			boolean createSubscription = subscriptionDAO.create(subscription);
-
-			int discount = 0;
-			switch (period) {
-			case 1:
-				discount = 0;
-				break;
-			case 3:
-				discount = periodicEdition.getDiscountQuarteryear();
-				break;
-			case 6:
-				discount = periodicEdition.getDiscountHalfyear();
-				break;
-			case 12:
-				discount = periodicEdition.getDiscountHalfyear();
-				break;
-			}
-			double coast = (double) (periodicEdition.getMonthPrice() * period * (100 - discount) / 100);
-
 			Payment payment = new Payment(idReader, coast);
 
+			boolean createSubscription = subscriptionDAO.create(subscription);
 			boolean createPayment = paymentDAO.create(payment);
 
 			if (createPayment & createSubscription) {
@@ -79,13 +62,13 @@ public class SubscriptionCreateCommand implements ActionCommand {
 			conn.close();
 
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

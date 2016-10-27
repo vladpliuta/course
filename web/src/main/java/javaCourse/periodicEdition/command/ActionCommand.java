@@ -3,7 +3,7 @@ package javaCourse.periodicEdition.command;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * интерфейс для команд
+ * command interface
  * 
  * @author Vladimir Pliuta
  *

@@ -1,7 +1,7 @@
 package javaCourse.periodicEdition.command;
 
 /**
- * Enam служащий хранилищем команд
+ * Enam - repository of commands
  * 
  * @author Vladimir Pliuta
  *

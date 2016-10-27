@@ -16,8 +16,7 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 
 
 /**
- * команда отображения списка всех пользователей (извлекая их из БД) для
- * страницы админа
+ * command to display all users for admin page
  * 
  * @author Vladimir Pliuta
  *
@@ -34,13 +33,13 @@ public class UsersListCommand implements ActionCommand {
 			request.setAttribute("usersList", usersList);
 			conn.close();
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

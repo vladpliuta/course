@@ -9,9 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import javaCourse.periodicEdition.resource.ConfigurationManager;
 import javaCourse.periodicEdition.resource.MessageManager;
+import javaCourse.periodicEdition.services.CheckLogin;
 
 /**
- * бизнес-логика команды на аутентификацию
+ * command for authentication
  * 
  * @author Vladimir Pliuta
  *
@@ -24,9 +25,9 @@ public class LoginCommand implements ActionCommand {
 		String enterLogin = request.getParameter("login");
 		String enterPassword = request.getParameter("password");
 		try {
-			if (CheckLogin.checkEnter(enterLogin, enterPassword).equals("admin")) {
+			if ("admin".equals(CheckLogin.checkEnter(enterLogin, enterPassword))) {
 				page = ConfigurationManager.getProperty("page.admin");
-			} else if (CheckLogin.checkEnter(enterLogin, enterPassword).equals("error")) {
+			} else if ("error".equals(CheckLogin.checkEnter(enterLogin, enterPassword))) {
 				request.setAttribute("errorLoginPassMessage", MessageManager.getProperty("message.loginerror"));
 				page = ConfigurationManager.getProperty("page.login");
 			} else {
@@ -35,13 +36,13 @@ public class LoginCommand implements ActionCommand {
 				page = ConfigurationManager.getProperty("page.user");
 			}
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

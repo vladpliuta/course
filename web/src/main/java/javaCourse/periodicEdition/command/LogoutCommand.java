@@ -7,7 +7,7 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 
 
 /**
- * команда выхода из системы и уничтожения сессии
+ * command out of the system and the destruction of session
  * 
  * @author Vladimir Pliuta
  *

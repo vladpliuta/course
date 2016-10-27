@@ -15,7 +15,7 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 
 
 /**
- * команда удаления периодического издания из БД
+ * command to delete a periodic edition from database
  * 
  * @author Vladimir Pliuta
  *
@@ -41,13 +41,13 @@ public class PeriodicEditionDeleteCommand implements ActionCommand {
 			conn.commit();
 			conn.close();
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", e);
+			request.getSession().setAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

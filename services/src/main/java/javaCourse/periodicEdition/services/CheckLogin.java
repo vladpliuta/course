@@ -1,4 +1,4 @@
-package javaCourse.periodicEdition.command;
+package javaCourse.periodicEdition.services;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -9,12 +9,8 @@ import javaCourse.periodicEdition.connect.DataSource;
 import javaCourse.periodicEdition.dao.ReaderDAO;
 import javaCourse.periodicEdition.entity.Reader;
 
-
-
-
 /**
- * выполнение проверки правильности введенных логина и пароля с помощью запроса
- * в БД,
+ * business logic for authentication; validation login and password
  * 
  * @author Vladimir Pliuta
  *
