@@ -86,7 +86,18 @@
                         <url>http://localhost:8080/manager/text</url>
                         <username>admin</username>
                         <password>password</password>
-                     </configuration>
+                     <server>TomcatServer</server>
+                        <path>/${project.build.finalName}</path>
+                        <warFile>target/${project.build.finalName}.war</warFile>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>redeploy</goal>
+                            </goals>
+                            <phase>install</phase>
+                        </execution>
+                    </executions>
                     
                 </plugin>
             </plugins>

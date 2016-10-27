@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  *
  */
 public class MessageManager {
-	private final static ResourceBundle resource = ResourceBundle.getBundle("javaCourse.periodicEdition.resource.messages");
+	private final static ResourceBundle resource = ResourceBundle.getBundle("messages");
 
 	private MessageManager() {
 	}

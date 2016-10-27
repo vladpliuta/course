@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  *
  */
 public class ConfigurationManager {
-	private final static ResourceBundle resource = ResourceBundle.getBundle("javaCourse.periodicEdition.resource.config");
+	private final static ResourceBundle resource = ResourceBundle.getBundle("config");
 
 	private ConfigurationManager() {
 	}

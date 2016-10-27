@@ -10,8 +10,6 @@ import javax.servlet.http.HttpSession;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
 import javaCourse.periodicEdition.resource.MessageManager;
 
-
-
 /**
  * бизнес-логика команды на аутентификацию
  * 
@@ -19,7 +17,7 @@ import javaCourse.periodicEdition.resource.MessageManager;
  *
  */
 public class LoginCommand implements ActionCommand {
-	
+
 	@Override
 	public String execute(HttpServletRequest request) {
 		String page = null;

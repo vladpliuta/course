@@ -7,7 +7,7 @@
 		<title>Login</title>
 	</head>
 	<body>
-		<h3>Периодические издания</h3>
+		<h3>Периодические издания 8</h3>
 		<form name="LoginForm" method="POST" action="controller">
 			<input type="hidden" name="command" value="login"/>
 			<fieldset>

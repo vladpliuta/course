@@ -20,12 +20,15 @@ public class DataSource {
 	private static DataSource dataSource;
 
 	private DataSource() throws IOException, SQLException, PropertyVetoException {
-		ResourceBundle resource = ResourceBundle.getBundle("javaCourse.periodicEdition.connect.database");
+		ResourceBundle resource = ResourceBundle.getBundle("database");
 		String driver = resource.getString("db.driver");
 		String url = resource.getString("db.url");
 		String user = resource.getString("db.user");
 		String password = resource.getString("db.password");
-
+		//String driver = "com.mysql.jdbc.Driver";
+				//String url = "jdbc:mysql://localhost:3306/periodicals?useUnicode=true&amp;characterEncoding=UTF-8";
+				//String user = "root";
+				//String password = "database";
 		cpds = new ComboPooledDataSource();
 		cpds.setDriverClass(driver);
 		cpds.setJdbcUrl(url);

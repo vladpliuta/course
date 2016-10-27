@@ -48,6 +48,7 @@ public enum CommandEnum {
 			this.command = new UsersListCommand();
 		}
 	};
+	
 	ActionCommand command;
 
 	public ActionCommand getCurrentCommand() {
