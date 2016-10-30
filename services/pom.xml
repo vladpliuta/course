@@ -26,5 +26,6 @@
         <artifactId>dao</artifactId>
         <version>${dao.version}</version>
     </dependency>
+    
   </dependencies>
 </project>

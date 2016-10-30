@@ -1,6 +1,6 @@
 package javaCourse.periodicEdition.command;
 
-import javax.servlet.http.HttpServletRequest;
+import javaCourse.periodicEdition.controller.RequestContent;
 
 /**
  * command interface
@@ -9,5 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 public interface ActionCommand {
-	String execute(HttpServletRequest request);
+
+	String execute(RequestContent requestContent);
+
 }

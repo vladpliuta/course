@@ -1,4 +1,4 @@
-package javaCourse.periodicEdition.servlet;
+package javaCourse.periodicEdition.controller;
 
 import java.io.IOException;
 
@@ -14,13 +14,11 @@ import javaCourse.periodicEdition.command.ActionFactory;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
 import javaCourse.periodicEdition.resource.MessageManager;
 
-
-
 /**
- * контроллер запросов
- * единственный сервлет в программе
- * использует паттерн command
+ * контроллер запросов единственный сервлет в программе
+ * 
  * обрабатывает только post запросы
+ * 
  * @author Vladimir Pliuta
  *
  */
@@ -31,15 +29,22 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String page = null;
+		RequestContent requestContent = new RequestContent();
+		requestContent.extractValue(request);
+		
 		ActionFactory client = new ActionFactory();
-		ActionCommand command = client.defineCommand(request);
-		page = command.execute(request);
+		ActionCommand command = client.defineCommand(requestContent);
+		page = command.execute(requestContent);
 
-		if (page == null) {
+		if (page != null) {
+			request = requestContent.updateRequest(request);
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+			dispatcher.forward(request, response);
+		} else {
 			page = ConfigurationManager.getProperty("page.error");
 			request.getSession().setAttribute("error", MessageManager.getProperty("message.nullpage"));
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+			dispatcher.forward(request, response);
 		}
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-		dispatcher.forward(request, response);
 	}
 }

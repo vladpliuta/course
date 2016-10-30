@@ -1,7 +1,8 @@
 package javaCourse.periodicEdition.command;
 
-import javax.servlet.http.HttpServletRequest;
 
+
+import javaCourse.periodicEdition.controller.RequestContent;
 import javaCourse.periodicEdition.resource.MessageManager;
 
 
@@ -17,8 +18,8 @@ import javaCourse.periodicEdition.resource.MessageManager;
 public class ActionFactory {
 	private ActionCommand current;
 
-	public ActionCommand defineCommand(HttpServletRequest request) {
-		String action = request.getParameter("command");
+	public ActionCommand defineCommand(RequestContent requestContent) {
+		String action = requestContent.getRequestParameter("command");
 		if (action == null || action.isEmpty()) {
 			return current;
 		}
@@ -27,7 +28,7 @@ public class ActionFactory {
 			CommandEnum currentEnum = CommandEnum.valueOf(action.toUpperCase());
 			current = currentEnum.getCurrentCommand();
 		} catch (IllegalArgumentException e) {
-			request.setAttribute("wrongAction", action + MessageManager.getProperty("message.wrongaction"));
+			requestContent.setRequestAttribute("wrongAction", action + MessageManager.getProperty("message.wrongaction"));
 		}
 		return current;
 	}

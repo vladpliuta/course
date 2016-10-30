@@ -1,7 +1,7 @@
 package javaCourse.periodicEdition.command;
 
-import javax.servlet.http.HttpServletRequest;
 
+import javaCourse.periodicEdition.controller.RequestContent;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
 
 
@@ -15,9 +15,9 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 public class LogoutCommand implements ActionCommand {
 
 	@Override
-	public String execute(HttpServletRequest request) {
+	public String execute(RequestContent requestContent) {
 		String page = ConfigurationManager.getProperty("page.index");
-		request.getSession().invalidate();
+		requestContent.sessionInvalidate();
 		return page;
 	}
 }

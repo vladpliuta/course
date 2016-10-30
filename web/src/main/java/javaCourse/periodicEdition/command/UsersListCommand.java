@@ -6,14 +6,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import javaCourse.periodicEdition.connect.DataSource;
+import javaCourse.periodicEdition.controller.RequestContent;
 import javaCourse.periodicEdition.dao.ReaderDAO;
 import javaCourse.periodicEdition.entity.Reader;
 import javaCourse.periodicEdition.resource.ConfigurationManager;
-
-
 
 /**
  * command to display all users for admin page
@@ -24,22 +21,22 @@ import javaCourse.periodicEdition.resource.ConfigurationManager;
 public class UsersListCommand implements ActionCommand {
 
 	@Override
-	public String execute(HttpServletRequest request) {
+	public String execute(RequestContent requestContent) {
 		String page = null;
 		try {
 			page = ConfigurationManager.getProperty("page.usersList");
 			Connection conn = DataSource.getInstance().getConnection();
 			List<Reader> usersList = new ReaderDAO(conn).findAll();
-			request.setAttribute("usersList", usersList);
+			requestContent.setRequestAttribute("usersList", usersList);
 			conn.close();
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", "data base exception");
+			requestContent.setRequestAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", "I/O exception");
+			requestContent.setRequestAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", "property exception");
+			requestContent.setRequestAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;

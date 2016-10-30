@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import javaCourse.periodicEdition.connect.DataSource;
+import javaCourse.periodicEdition.controller.RequestContent;
 import javaCourse.periodicEdition.dao.PaymentDAO;
 import javaCourse.periodicEdition.dao.PeriodicEditionDAO;
 import javaCourse.periodicEdition.dao.SubscriptionDAO;
@@ -27,14 +25,15 @@ import javaCourse.periodicEdition.services.CalculateCoast;
 public class SubscriptionCreateCommand implements ActionCommand {
 
 	@Override
-	public String execute(HttpServletRequest request) {
+	public String execute(RequestContent requestContent) {
 		String page = null;
-		String issnString = request.getParameter("idPeriodicEdition");
+		String issnString = requestContent.getRequestParameter("idPeriodicEdition");
 		int issn = Integer.valueOf(issnString);
-		HttpSession session = request.getSession();
-		String idReaderString = (String) session.getAttribute("userId");
+
+		String idReaderString = (String) requestContent.getSessionAttribute("userId");
 		int idReader = Integer.valueOf(idReaderString);
-		String periodString = request.getParameter("period");
+
+		String periodString = requestContent.getRequestParameter("period");
 		int period = Integer.valueOf(periodString);
 
 		try {
@@ -56,19 +55,19 @@ public class SubscriptionCreateCommand implements ActionCommand {
 
 			if (createPayment & createSubscription) {
 				page = ConfigurationManager.getProperty("page.userPayment");
-				request.setAttribute("coast", coast);
+				requestContent.setRequestAttribute("coast", coast);
 			}
 			conn.commit();
 			conn.close();
 
 		} catch (SQLException e) {
-			request.getSession().setAttribute("error", "data base exception");
+			requestContent.setRequestAttribute("error", "data base exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (IOException e) {
-			request.getSession().setAttribute("error", "I/O exception");
+			requestContent.setRequestAttribute("error", "I/O exception");
 			page = ConfigurationManager.getProperty("page.error");
 		} catch (PropertyVetoException e) {
-			request.getSession().setAttribute("error", "property exception");
+			requestContent.setRequestAttribute("error", "property exception");
 			page = ConfigurationManager.getProperty("page.error");
 		}
 		return page;
